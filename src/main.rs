@@ -1,4 +1,5 @@
-use aeonai_calcs::build_cost::grpc_service;
+use aeonai_calcs::build_cost::grpc_service as build_cost_service;
+use aeonai_calcs::income::grpc_service as income_service;
 use tonic::transport::Server;
 
 #[tokio::main]
@@ -12,7 +13,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     println!("Starting gRPC Server on {}", addr);
     Server::builder()
-        .add_service(grpc_service::new())
+        .add_service(build_cost_service::new())
+        .add_service(income_service::new())
         .serve(addr)
         .await?;
 

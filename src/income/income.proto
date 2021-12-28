@@ -1,0 +1,35 @@
+syntax = "proto3";
+package income;
+
+message CommercialIncomeMonthlyArgs {
+  float total_sqft = 1;
+  float income_potential_per_sqft_monthly = 2;
+
+  // should be a value between 0-100 (vs 0-1)
+  float vacancy_rate_percentage = 3;
+}
+
+message CommercialIncomeYearlyArgs {
+  float total_sqft = 1;
+  float income_potential_per_sqft_yearly = 2;
+
+  // should be a value between 0-100 (vs 0-1)
+  float vacancy_rate_percentage = 3;
+}
+
+message CalcIncomeRequest {
+  oneof income {
+    CommercialIncomeMonthlyArgs monthly = 1;
+    CommercialIncomeYearlyArgs yearly = 2;
+  }
+}
+
+message CalcIncomeResponse {
+  float potential_income = 1;
+  float realized_income = 2;
+  float unrealized_income = 3;
+}
+
+service IncomeCalculator {
+  rpc CalcIncome(CalcIncomeRequest) returns (CalcIncomeResponse);
+}
